@@ -18,12 +18,12 @@ public class Login extends JFrame {
 		@Override
 		public void mousePressed(MouseEvent e) {
 			Component focus = getFocusOwner();
+			
 			if (focus instanceof MTextField || focus instanceof MPasswordField) {
 	            if (!SwingUtilities.isDescendingFrom(e.getComponent(), focus)) {
 	                requestFocusInWindow();
 	            }
 	        }
-			
 		}
 	};
 
@@ -31,26 +31,26 @@ public class Login extends JFrame {
 		
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setTitle("Login");
-		this.setSize(800,700);
+		this.setSize(Main.CONFIG.WIDTH,Main.CONFIG.HEIGHT);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 		
-		this.getContentPane().setLayout(new GridLayout(0, 2, 0, 0));
-		
-		{ // DIREITA
-			Panel_R panel_R = new Panel_R();
-			
-			panel_R.addMouseListenerInPanels(mouseAdapter);
-			
-			this.getContentPane().add(panel_R);
-		}
+		this.setLayout(new GridLayout(0, 2, 0, 0));
 		
 		{ // ESQUERDA
 			Panel_L panel_L = new Panel_L();
 			
 			panel_L.addMouseListenerInPanels(mouseAdapter);
 			
-			this.getContentPane().add(panel_L);
+			this.add(panel_L);
+		}
+		
+		{ // DIREITA
+			Panel_R panel_R = new Panel_R();
+			
+			panel_R.addMouseListenerInPanels(mouseAdapter);
+			
+			this.add(panel_R);
 		}
 		
 		setFocusable(true);
