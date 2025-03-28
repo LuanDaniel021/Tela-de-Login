@@ -25,16 +25,19 @@ import fields.MTextField;
 @SuppressWarnings("serial")
 public class Panel_R extends JPanel {
 	
-	private MTextField txtUsuario = new MTextField("Usuario",10);
+	private MTextField txtUsuario;
 	private MPasswordField txtSenha = new MPasswordField("Senha",10);
 	
 	public Panel_R() {
 		
-		this.setBorder(new MatteBorder(0, 1, 0, 0, (Color) new Color(0, 0, 0)));
+		this.setBorder(new MatteBorder(0, 1, 0, 0, (Color) Color.LIGHT_GRAY));
 		this.setLayout(new BorderLayout(0, 0));
 		
-		{ // EXTRAs
+		{ // CONFIG FIELDS
+			txtUsuario = new MTextField("Nome de Usuário",10);
 			txtUsuario.setStatusOnFocus(Status.DEFAULT);
+			
+			txtSenha = new MPasswordField("Senha",10);
 			txtSenha.setStatusOnFocus(Status.DEFAULT);
 		}
 		
@@ -71,21 +74,20 @@ public class Panel_R extends JPanel {
 			gbl_panel_C.columnWidths = new int[] {300};
 			panel_C.setLayout(gbl_panel_C);
 			
-			GridBagConstraints gbc_txtUsuario = new GridBagConstraints();
-			gbc_txtUsuario.fill = GridBagConstraints.HORIZONTAL;
-			gbc_txtUsuario.insets = new Insets(10, 10, 10, 10);
-			gbc_txtUsuario.gridx = 0;
-			gbc_txtUsuario.gridy = 0;
-			
-			panel_C.add(txtUsuario, gbc_txtUsuario);
-			
-			GridBagConstraints gbc_txtSenha = new GridBagConstraints();
-			gbc_txtSenha.fill = GridBagConstraints.HORIZONTAL;
-			gbc_txtSenha.insets = new Insets(10, 10, 10, 10);
-			gbc_txtSenha.gridx = 0;
-			gbc_txtSenha.gridy = 1;
-			
-			panel_C.add(txtSenha, gbc_txtSenha);
+			{ // ADD FIELDS
+				
+				GridBagConstraints gbc_Fields = new GridBagConstraints();
+				gbc_Fields.fill = GridBagConstraints.HORIZONTAL;
+				gbc_Fields.insets = new Insets(10, 10, 10, 10);
+				gbc_Fields.gridx = 0;
+				gbc_Fields.gridy = 0;
+				
+				panel_C.add(txtUsuario, gbc_Fields);
+				
+				gbc_Fields.gridy = 1;
+				
+				panel_C.add(txtSenha, gbc_Fields);
+			}
 			
 		}
 		
@@ -101,12 +103,8 @@ public class Panel_R extends JPanel {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					Main.tryLogin(txtUsuario.getText(), new String(txtSenha.getPassword()));
-					modifyFieldUsuario();
-					modifyFieldSenha();
-					showMensagem();
+					resultdoLogin();
 				}
-
-				
 				
 			});
 			panel_B.add(btnEntrar);
@@ -117,40 +115,31 @@ public class Panel_R extends JPanel {
 		}
 	}
 	
-	private void showMensagem() {
+	private void resultdoLogin() {
+		
 		if (Main.DB.loginResultado) {
+			
+			txtUsuario.setStatus(Status.CONFIRM);
+			txtSenha.setStatus(Status.CONFIRM);
+			
 			JOptionPane.showMessageDialog(
 				null,
 				"Usuário Conectado", 
 				"Login Concluido",
 				JOptionPane.INFORMATION_MESSAGE
 			);
+			
 		} else {
+			
+			txtUsuario.setStatus(Status.ERROR);
+			txtSenha.setStatus(Status.ERROR);
+			
 			JOptionPane.showMessageDialog(
 				null,
 				"Senha ou nome incorretos", 
 				"Falha no Login",
 				JOptionPane.ERROR_MESSAGE
 			);
-		}
-	}
-	
-	private void modifyFieldUsuario() {
-
-		if (Main.DB.loginResultado) {
-			txtUsuario.setStatus(Status.CONFIRM);
-		} else {
-			txtUsuario.setStatus(Status.ERROR);
-		}
-		
-	}
-	
-	private void modifyFieldSenha() {
-
-		if (Main.DB.loginResultado) {
-			txtSenha.setStatus(Status.CONFIRM);
-		} else {
-			txtSenha.setStatus(Status.ERROR);
 		}
 		
 	}

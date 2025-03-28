@@ -5,6 +5,7 @@ import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
@@ -26,6 +27,14 @@ public class Login extends JFrame {
 	        }
 		}
 	};
+	
+	public static final Icons ICON = new Icons();
+	
+	public static class Icons {
+		public final ImageIcon USER_ICON = new ImageIcon( // imgem de Usuario na tala da ESQUERDA 
+			"C:/Users/Luan/git/repository-TelaDeLogin/TelaDeLogin/img/imagem-do-usuario-com-fundo-preto-128x128.png"
+		);
+    }
 
 	public Login() {
 		
@@ -57,4 +66,6 @@ public class Login extends JFrame {
 		
 		this.setVisible(true);
 	}
+	
+	
 }
