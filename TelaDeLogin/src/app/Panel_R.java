@@ -14,9 +14,11 @@ import java.awt.event.MouseAdapter;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.MatteBorder;
 
+import enums.Status;
 import fields.MPasswordField;
 import fields.MTextField;
 
@@ -30,6 +32,11 @@ public class Panel_R extends JPanel {
 		
 		this.setBorder(new MatteBorder(0, 1, 0, 0, (Color) new Color(0, 0, 0)));
 		this.setLayout(new BorderLayout(0, 0));
+		
+		{ // EXTRAs
+			txtUsuario.setStatusOnFocus(Status.DEFAULT);
+			txtSenha.setStatusOnFocus(Status.DEFAULT);
+		}
 		
 		{ // TOPO
 			
@@ -93,8 +100,13 @@ public class Panel_R extends JPanel {
 				
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					
+					Main.tryLogin(txtUsuario.getText(), new String(txtSenha.getPassword()));
+					modifyFieldUsuario();
+					modifyFieldSenha();
+					showMensagem();
 				}
+
+				
 				
 			});
 			panel_B.add(btnEntrar);
@@ -103,6 +115,44 @@ public class Panel_R extends JPanel {
 			btnEntrar.setFont(new Font("Arial", Font.BOLD, 18));
 			
 		}
+	}
+	
+	private void showMensagem() {
+		if (Main.DB.loginResultado) {
+			JOptionPane.showMessageDialog(
+				null,
+				"Usuário Conectado", 
+				"Login Concluido",
+				JOptionPane.INFORMATION_MESSAGE
+			);
+		} else {
+			JOptionPane.showMessageDialog(
+				null,
+				"Senha ou nome incorretos", 
+				"Falha no Login",
+				JOptionPane.ERROR_MESSAGE
+			);
+		}
+	}
+	
+	private void modifyFieldUsuario() {
+
+		if (Main.DB.loginResultado) {
+			txtUsuario.setStatus(Status.CONFIRM);
+		} else {
+			txtUsuario.setStatus(Status.ERROR);
+		}
+		
+	}
+	
+	private void modifyFieldSenha() {
+
+		if (Main.DB.loginResultado) {
+			txtSenha.setStatus(Status.CONFIRM);
+		} else {
+			txtSenha.setStatus(Status.ERROR);
+		}
+		
 	}
 	
 	public void addMouseListenerInPanels(MouseAdapter mouseAdapter) {

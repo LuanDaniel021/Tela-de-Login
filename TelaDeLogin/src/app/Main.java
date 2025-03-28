@@ -10,18 +10,19 @@ public class Main {
     public static class Config {
         public final int WIDTH = 800;
         public final int HEIGHT = 700;
-        public final String VERSAO = "0.4";
+        public final String VERSAO = "0.5";
     }
 
     
     // Sem função
     public static class Database {
-        public String usuario = "";
-        public String senha = "";
+        public String usuario = "usuario";
+        public String senha = "senha";
+        
         public boolean loginResultado = false;
-
-        public String getConnectionStatus() {
-            return loginResultado ? "Conectado" : "Desconectado";
-        }
+    }
+    
+    public static void tryLogin(String usuario,String senha) {
+    	DB.loginResultado = (DB.usuario.equals(usuario) && DB.senha.equals(senha));
     }
 }
