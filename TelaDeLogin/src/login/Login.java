@@ -1,4 +1,4 @@
-package app;
+package login;
 
 import java.awt.Component;
 import java.awt.GridLayout;
@@ -9,13 +9,17 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
+import app.Main;
 import fields.MPasswordField;
 import fields.MTextField;
 
 @SuppressWarnings("serial")
 public class Login extends JFrame {
 	
+	protected static final Icons ICON = new Icons();
+	
 	private MouseAdapter mouseAdapter = new MouseAdapter() {
+		
 		@Override
 		public void mousePressed(MouseEvent e) {
 			Component focus = getFocusOwner();
@@ -28,14 +32,6 @@ public class Login extends JFrame {
 		}
 	};
 	
-	public static final Icons ICON = new Icons();
-	
-	public static class Icons {
-		public final ImageIcon USER_ICON = new ImageIcon( // imgem de Usuario na tala da ESQUERDA 
-			"C:/Users/Luan/git/repository-TelaDeLogin/TelaDeLogin/img/imagem-do-usuario-com-fundo-preto-128x128.png"
-		);
-    }
-
 	public Login() {
 		
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -48,17 +44,13 @@ public class Login extends JFrame {
 		
 		{ // ESQUERDA
 			Panel_L panel_L = new Panel_L();
-			
 			panel_L.addMouseListenerInPanels(mouseAdapter);
-			
 			this.add(panel_L);
 		}
 		
 		{ // DIREITA
 			Panel_R panel_R = new Panel_R();
-			
 			panel_R.addMouseListenerInPanels(mouseAdapter);
-			
 			this.add(panel_R);
 		}
 		
@@ -67,5 +59,7 @@ public class Login extends JFrame {
 		this.setVisible(true);
 	}
 	
-	
+	protected static class Icons {
+		public final ImageIcon USER_ICON = new ImageIcon(Main.CAMINHO.USER_ICON);
+    }
 }

@@ -1,4 +1,4 @@
-package app;
+package login;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -18,6 +18,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.MatteBorder;
 
+import app.Main;
 import enums.Status;
 import fields.MPasswordField;
 import fields.MTextField;
@@ -26,20 +27,12 @@ import fields.MTextField;
 public class Panel_R extends JPanel {
 	
 	private MTextField txtUsuario;
-	private MPasswordField txtSenha = new MPasswordField("Senha",10);
+	private MPasswordField txtSenha;
 	
 	public Panel_R() {
 		
 		this.setBorder(new MatteBorder(0, 1, 0, 0, (Color) Color.LIGHT_GRAY));
 		this.setLayout(new BorderLayout(0, 0));
-		
-		{ // CONFIG FIELDS
-			txtUsuario = new MTextField("Nome de Usuário",10);
-			txtUsuario.setStatusOnFocus(Status.DEFAULT);
-			
-			txtSenha = new MPasswordField("Senha",10);
-			txtSenha.setStatusOnFocus(Status.DEFAULT);
-		}
 		
 		{ // TOPO
 			
@@ -77,9 +70,20 @@ public class Panel_R extends JPanel {
 			{ // ADD FIELDS
 				
 				GridBagConstraints gbc_Fields = new GridBagConstraints();
-				gbc_Fields.fill = GridBagConstraints.HORIZONTAL;
-				gbc_Fields.insets = new Insets(10, 10, 10, 10);
-				gbc_Fields.gridx = 0;
+				
+				{ // CONFIG FIELDS
+					
+					gbc_Fields.fill = GridBagConstraints.HORIZONTAL;
+					gbc_Fields.insets = new Insets(10, 10, 10, 10);
+					gbc_Fields.gridx = 0;
+					
+					txtUsuario = new MTextField("Nome de Usuário",10, new Font("Arial",0,18));
+					txtUsuario.setStatusOnFocus(Status.DEFAULT);
+					
+					txtSenha = new MPasswordField("Senha",10,new Font("Arial",0,18));
+					txtSenha.setStatusOnFocus(Status.DEFAULT);
+				}
+				
 				gbc_Fields.gridy = 0;
 				
 				panel_C.add(txtUsuario, gbc_Fields);
@@ -102,8 +106,7 @@ public class Panel_R extends JPanel {
 				
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					Main.tryLogin(txtUsuario.getText(), new String(txtSenha.getPassword()));
-					resultdoLogin();
+					resultdoLogin(Main.DB.tryLogin(txtUsuario.getText(), new String(txtSenha.getPassword())));
 				}
 				
 			});
@@ -115,9 +118,9 @@ public class Panel_R extends JPanel {
 		}
 	}
 	
-	private void resultdoLogin() {
+	private void resultdoLogin(boolean loginResultado) {
 		
-		if (Main.DB.loginResultado) {
+		if (loginResultado) {
 			
 			txtUsuario.setStatus(Status.CONFIRM);
 			txtSenha.setStatus(Status.CONFIRM);

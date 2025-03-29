@@ -1,4 +1,4 @@
-package app;
+package login;
 
 import java.awt.BorderLayout;
 import java.awt.Font;
@@ -11,6 +11,8 @@ import java.awt.event.MouseAdapter;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import app.Main;
 
 @SuppressWarnings("serial")
 public class Panel_L extends JPanel {
@@ -32,7 +34,7 @@ public class Panel_L extends JPanel {
 			{
 				JLabel label = new JLabel();
 				label.setIcon(Login.ICON.USER_ICON);
-				
+		
 				GridBagConstraints gbc_label = new GridBagConstraints();
 				gbc_label.gridx = 0;
 				gbc_label.gridy = 0;

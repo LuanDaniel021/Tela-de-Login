@@ -1,10 +1,14 @@
 package app;
 
+import database.DataBase;
+import login.Login;
+
 public class Main { 
-
+	
+	public static final Caminhos CAMINHO = new Caminhos();
     public static final Config CONFIG = new Config();
-    public static final Database DB = new Database();
-
+    public static final DataBase DB = new DataBase();
+	
     public static void main(String[] args) {new Login();}
     
     public static class Config {
@@ -13,18 +17,14 @@ public class Main {
         public final String VERSAO = "0.5.2";
     }
 
-    // Simula um login pra testes
-    public static class Database {
-        public String USUARIO = "usuario";
-        public String SENHA = "senha";
-        
-        public boolean loginResultado = false;
+    public static class Caminhos {
+    	public final String USER_ICON;
+    	
+    	{ // IMAGENS
+    		USER_ICON = "C:/Users/Luan/git/repository-TelaDeLogin/TelaDeLogin/img/imagem-do-usuario-com-fundo-preto-128x128.png";
+    	}
+    	
     }
     
-    public static void tryLogin(String usuario,String senha) {
-    	DB.loginResultado = (DB.USUARIO.equals(usuario) && DB.SENHA.equals(senha));
-    }
-    
-    // mudei coisas mas no fim não mudei nada ...
 }
 
