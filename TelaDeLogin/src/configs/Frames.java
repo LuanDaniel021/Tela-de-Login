@@ -1,7 +1,7 @@
 package configs;
 
 public enum Frames {
-	LOGIN(800,700,"1.4");
+	LOGIN(800,700,"1.6");
 	
 	private int width;
 	private int height;

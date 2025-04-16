@@ -9,7 +9,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.MatteBorder;
 
-import enums.Status;
+import MComponentes.enums.StatusFields;
 import fields.MPasswordField;
 import fields.MTextField;
 
@@ -30,13 +30,13 @@ public class Panel_R extends JPanel {
 		
 		{
 			txtUsuario.setBounds(58, 283, 280, 46);
-			txtUsuario.setStatusOnFocus(Status.DEFAULT);
+			txtUsuario.setStatusOnFocus(StatusFields.DEFAULT);
 			this.add(txtUsuario);
 		}
 		
 		{
 			txtSenha.setBounds(58, 350, 280, 46);
-			txtSenha.setStatusOnFocus(Status.DEFAULT);
+			txtSenha.setStatusOnFocus(StatusFields.DEFAULT);
 			this.add(txtSenha);
 		}
 		
