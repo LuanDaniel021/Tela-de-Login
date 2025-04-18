@@ -4,11 +4,12 @@ import configs.MessageDialog;
 import configs.StatusConnection;
 
 public class DataBase {
-    private String USUARIO = "usuario";
-    private String SENHA = "senha";
+    private static String USUARIO = "usuario";
+    private static String SENHA = "senha";
+    
 	private StatusConnection status = StatusConnection.CONNECTED;
     
-    public boolean tryLogin(String usuario,String senha) {
+    public static boolean tryLogin(String usuario,String senha) {
     	return (USUARIO.equals(usuario) && SENHA.equals(senha));
     }
     

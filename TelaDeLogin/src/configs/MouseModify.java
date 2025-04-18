@@ -6,9 +6,9 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.SwingUtilities;
 
-import app.Login;
 import fields.MPasswordField;
 import fields.MTextField;
+import frame.Login;
 
 public class MouseModify extends MouseAdapter {
 	private Login login;
