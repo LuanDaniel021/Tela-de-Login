@@ -3,7 +3,7 @@ package configs;
 import java.awt.Dimension;
 
 public enum FramesConfigs {
-	LOGIN(new Dimension(800,700),"2.0");
+	LOGIN(new Dimension(800,700),"2.2");
 	
 	private Dimension dimension;
 	private String versao;

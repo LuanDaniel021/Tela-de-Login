@@ -7,6 +7,8 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.Label;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -17,18 +19,19 @@ import javax.swing.border.MatteBorder;
 
 import MComponentes.enums.StatusFields;
 import app.Main;
+import configs.FrameEvents;
 import configs.FramesConfigs;
-import configs.LoginInterface;
-import configs.MouseModify;
+import database.Usuario;
 import fields.MPasswordField;
 import fields.MTextField;
 
 @SuppressWarnings("serial")
 public class Login extends JFrame {
 	
-	private final MouseModify mouseAdapter;
+	private final MTextField txtUsuario;
+	private final MPasswordField txtSenha;
 
-	public Login(LoginInterface loginInterface) {
+	public Login(FrameEvents frameEvents) {
 		
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setMinimumSize(FramesConfigs.LOGIN.getDimencion());
@@ -39,7 +42,8 @@ public class Login extends JFrame {
 		
 		getContentPane().setLayout(new GridLayout(0, 2, 0, 0));
 		
-		mouseAdapter = new MouseModify(this);
+		final MouseAdapter mouseAdapter = frameEvents.createMouseAdapter();
+		final ActionListener[] events = frameEvents.createActions();
 
 		{ // LEFT PANEL
 			
@@ -139,7 +143,7 @@ public class Login extends JFrame {
 					
 					{ // FIELD USUÁRIO
 						
-						MTextField txtUsuario = loginInterface.txtusuario();
+						txtUsuario = new MTextField("Nome de Usuário", new Font("Arial",1,18));
 						
 						txtUsuario.setStatusOnFocus(StatusFields.DEFAULT);
 						
@@ -155,7 +159,7 @@ public class Login extends JFrame {
 					
 					{ // FIELD SENHA
 						
-						MPasswordField txtSenha = loginInterface.txtSenha();
+						txtSenha = new MPasswordField("Senha",new Font("Arial",1,18));
 						
 						txtSenha.setStatusOnFocus(StatusFields.DEFAULT);
 						
@@ -171,7 +175,9 @@ public class Login extends JFrame {
 					
 					{ // BOTÂO ENTRAR
 						
-						JButton btnEntrar = loginInterface.btnEntrar();
+						JButton btnEntrar = new JButton("Entrar");
+						
+						btnEntrar.addActionListener(events[0]);
 						
 						btnEntrar.setFocusPainted(false);
 						
@@ -195,5 +201,11 @@ public class Login extends JFrame {
 		}
 		
 	}
+	
+	public Usuario getUsuario() {return new Usuario(txtUsuario.getText(), new String(txtSenha.getPassword()));}
+	
+	public MTextField getTxtUsuario() {return txtUsuario;}
+
+	public MPasswordField getTxtSenha() {return txtSenha;}
 
 }

@@ -1,17 +1,18 @@
 package app;
 
-import java.awt.Font;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
-import javax.swing.JButton;
+import javax.swing.SwingUtilities;
 
 import MComponentes.enums.StatusFields;
-import configs.LoginInterface;
+import configs.FrameEvents;
 import configs.MessageDialog;
 import database.DataBase;
-import fields.MPasswordField;
-import fields.MTextField;
+import fields.MComponenteField;
 import frame.Login;
 
 
@@ -21,45 +22,56 @@ public class Main {
 	
 	public static void main(String[] args) {
 
-		LOGIN = new Login(new LoginInterface() {
-
-			private final MTextField txtUsuario = new MTextField("Nome de Usuário", new Font("Arial",1,18));
-			private final MPasswordField txtSenha = new MPasswordField("Senha",new Font("Arial",1,18));
-			private final JButton btnEntrar = new JButton("Entrar");
+		LOGIN = new Login(new FrameEvents() {
 			
 			@Override
-			public MTextField txtusuario() {return txtUsuario;}
-
-			@Override
-			public MPasswordField txtSenha() {return txtSenha;}
-
-			@Override
-			public JButton btnEntrar() {
-				
-				btnEntrar.addActionListener(new ActionListener() {
+			public MouseAdapter createMouseAdapter() {
+				return new MouseAdapter() {
 					
 					@Override
-					public void actionPerformed(ActionEvent e) {
-						login(DataBase.tryLogin(txtUsuario.getText(), new String(txtSenha.getPassword())));
-					}
-
-					private void login(boolean connection) {
-						StatusFields status = (connection) ? StatusFields.CONFIRM : StatusFields.ERROR;
+					public void mousePressed(MouseEvent e) {
+						Component focus = LOGIN.getFocusOwner();
 						
-						txtUsuario.setStatus(status);
-						txtSenha.setStatus(status);
-						MessageDialog.showMessageFields(status);
-						
+						if (focus instanceof MComponenteField) {
+				            if (!SwingUtilities.isDescendingFrom(e.getComponent(), focus)) {
+				            	LOGIN.requestFocusInWindow();
+				            }
+				        }
 					}
-				});
-				
-				return btnEntrar;
+					
+				};
 			}
-
+			
+			@Override
+			public ActionListener[] createActions() {
+				
+				ActionListener[] events = {
+					
+					new ActionListener() { // Evento do botão "btnEntrar", index : 0
+						
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							processLoginResult(DataBase.tryLogin(LOGIN.getUsuario()));
+						}		
+			
+					}
+					
+				};
+				
+				return events;
+			}
+			
 		});
 		
 		LOGIN.setVisible(true);
 		
+	}
+	
+	private static void processLoginResult(boolean isSuccessful) {
+	    StatusFields status = isSuccessful ? StatusFields.CONFIRM : StatusFields.ERROR;
+	    LOGIN.getTxtUsuario().setStatus(status);
+	    LOGIN.getTxtSenha().setStatus(status);
+	    MessageDialog.showMessageFields(status);
 	}
 	
 }
